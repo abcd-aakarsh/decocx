@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -52,7 +53,8 @@
     .button-container {
       display: flex;
       justify-content: center;
-      margin-bottom: 20px; /* Adjust spacing between paragraph and buttons */
+      margin-bottom: 20px;
+      /* Adjust spacing between paragraph and buttons */
     }
 
     .btn {
@@ -111,8 +113,8 @@
   <div class="content">
     <h1>AirPods Pro</h1>
     <p>Discover the revolutionary AirPods with wireless charging and superior sound quality.</p>
-  <div class="button-container">
-      <button class="btn">Add to Cart</button>
+    <div class="button-container">
+      <button class="btn" id="addToCartBtn">Add to Cart</button>
       <button class="btn">Buy Now</button>
       <button class="btn">Learn More</button>
     </div>
@@ -120,6 +122,30 @@
   </div>
 
   <script type="module">
+    document.getElementById('addToCartBtn').addEventListener('click', () => {
+      const item = { name: 'AirPods Pro', price: 999, image: 'phone.png' };
+      addToCart(item);
+    });
+
+    function addToCart(item) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+      // Check if item already exists in cart based on some identifier (e.g., name or ID)
+      const existingItem = cart.find(i => i.name === item.name);
+
+      if (existingItem) {
+        existingItem.quantity++; // Increment quantity if item exists
+      } else {
+        item.quantity = 1; // Set quantity to 1 for new item
+        cart.push(item); // Add new item to cart
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      // Optionally update UI or provide feedback to user
+      console.log('Item added to cart:', item);
+    }
+
     import * as THREE from "three";
     import { GLTFLoader } from "GLTFLoader";
     import { OrbitControls } from "OrbitControls";
@@ -205,47 +231,4 @@
 
     const particlesMaterial = new THREE.PointsMaterial({
       color: parameters.particleColor,
-      sizeAttenuation: true,
-      size: 0.03
-    });
-
-    const particles = new THREE.Points(particlesGeometry, particlesMaterial);
-    scene.add(particles);
-
-    // Sizes
-    const sizes = {
-      width: window.innerWidth * 0.6,
-      height: window.innerHeight
-    };
-
-    window.addEventListener("resize", () => {
-      sizes.width = window.innerWidth * 0.6;
-      sizes.height = window.innerHeight;
-
-      camera.aspect = sizes.width / sizes.height;
-      camera.updateProjectionMatrix();
-
-      renderer.setSize(sizes.width, sizes.height);
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    });
-
-    // Camera
-    const camera = new THREE.PerspectiveCamera(
-      35,
-      sizes.width / sizes.height,
-      0.1,
-      100
-    );
-    camera.position.z = 6;
-    scene.add(camera);
-
-    // Renderer
-    const renderer = new THREE.WebGLRenderer({
-      canvas: canvas,
-      alpha: true
-    });
-    renderer.setSize(sizes.width, sizes.height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-  </script>
-</body>
-</html>
+      sizeAttenuation:
