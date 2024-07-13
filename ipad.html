@@ -114,7 +114,7 @@
     <h1>IPad Mini</h1>
     <p>Embrace the endless possibilities of productivity and entertainment with the iPad.</p>
     <div class="button-container">
-      <button class="btn">Add to Cart</button>
+      <button class="btn" id="addToCartBtn">Add to Cart</button>
       <button class="btn">Buy Now</button>
       <button class="btn">Learn More</button>
     </div>
@@ -122,7 +122,27 @@
   </div>
 
   <script type="module">
+    document.getElementById('addToCartBtn').addEventListener('click', () => {
+      const item = { name: 'Ipad', price: 499, image: 'phone.png' };
+      addToCart(item);
+    });
 
+    function addToCart(item) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+      // Check if item already exists in cart based on some identifier (e.g., name or ID)
+      const existingItem = cart.find(i => i.name === item.name);
+
+      if (existingItem) {
+        existingItem.quantity++; // Increment quantity if item exists
+      } else {
+        item.quantity = 1; // Set quantity to 1 for new item
+        cart.push(item); // Add new item to cart
+      }
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert('Item added to cart:', item);
+    }
     import * as THREE from "three";
     import { GLTFLoader } from "GLTFLoader";
     import { OrbitControls } from "OrbitControls";

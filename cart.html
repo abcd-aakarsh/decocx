@@ -98,27 +98,23 @@
   <div class="cart-items" id="cart-items">
     <!-- Cart items will be dynamically added here -->
   </div>
-
   <div class="total" id="total">
     Total: $0.00
   </div>
-
   <a href="index.html" class="back-link">Back to Home</a>
-
   <script>
-    // JavaScript for rendering cart items from localStorage
     const cartItemsContainer = document.getElementById("cart-items");
     const totalElement = document.getElementById("total");
 
-    // Function to render cart items
     function renderCartItems() {
       const cart = JSON.parse(localStorage.getItem('cart')) || [];
-
       let total = 0;
-      cartItemsContainer.innerHTML = ""; // Clear previous items
+
+      cartItemsContainer.innerHTML = "";
 
       cart.forEach(item => {
         total += item.price * item.quantity;
+
         const itemElement = document.createElement("div");
         itemElement.classList.add("item");
         itemElement.innerHTML = `
@@ -136,13 +132,10 @@
       totalElement.textContent = `Total: $${total.toFixed(2)}`;
     }
 
-    renderCartItems();
-
-    // Function to decrement item quantity
     function decrementQuantity(name) {
       let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
       const item = cart.find(i => i.name === name);
+
       if (item && item.quantity > 1) {
         item.quantity--;
         localStorage.setItem('cart', JSON.stringify(cart));
@@ -150,11 +143,10 @@
       }
     }
 
-    // Function to increment item quantity
     function incrementQuantity(name) {
       let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
       const item = cart.find(i => i.name === name);
+
       if (item) {
         item.quantity++;
         localStorage.setItem('cart', JSON.stringify(cart));
@@ -162,14 +154,15 @@
       }
     }
 
-    // Function to remove item from cart
     function removeItem(name) {
       let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
       const updatedCart = cart.filter(item => item.name !== name);
+
       localStorage.setItem('cart', JSON.stringify(updatedCart));
       renderCartItems();
     }
+
+    renderCartItems();
   </script>
 </body>
 
